@@ -4,14 +4,10 @@ import { Button } from "@/components/ui/button";
 
 export function BioimpedanceSection() {
   return (
-    <section
-      id="bioimpedancia"
-      className="py-16 md:py-24 lg:py-28 bg-background relative overflow-hidden border-t border-white/5"
-    >
+    <section id="bioimpedancia">
       <div className="container mx-auto px-4 md:px-12 max-w-7xl relative z-10">
-        <div className="glass-card overflow-hidden border-white/5 bg-gradient-to-br from-primary/20 to-transparent">
+        <div className="glass-card overflow-hidden bg-gradient-to-br from-primary/20 to-transparent">
           
-          {/* 🔑 items-stretch */}
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
 
             {/* TEXTO */}
@@ -84,7 +80,7 @@ export function BioimpedanceSection() {
               </div>
             </motion.div>
 
-            {/* VÍDEO – ALTURA TOTAL */}
+            {/* VÍDEO */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}

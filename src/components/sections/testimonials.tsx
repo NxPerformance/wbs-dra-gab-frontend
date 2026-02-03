@@ -24,14 +24,18 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <section className="py-16 md:py-24 lg:py-28 bg-background relative overflow-hidden border-t border-white/5">
+    <section className="pt-8 pb-16 md:pt-12 md:pb-24 lg:pt-16 lg:pb-28 bg-background relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-12 max-w-7xl relative z-10">
-        <div className="text-center mb-8 md:mb-12 space-y-4">
-          <h2 className="text-white/60 text-xl font-sans uppercase tracking-[0.3em]">Veja o depoimento</h2>
-          <p className="text-4xl md:text-5xl font-sans font-medium text-white italic">de quem já comprovou</p>
+        <div className="text-center mb-6 md:mb-10 space-y-3">
+          <h2 className="text-white/60 text-xl font-sans uppercase tracking-[0.3em]">
+            Veja o depoimento
+          </h2>
+          <p className="text-4xl md:text-5xl font-sans font-medium text-white italic">
+            de quem já comprovou
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 items-stretch"> {/* Adicionado items-stretch */}
+        <div className="grid md:grid-cols-3 gap-6 items-stretch">
           {testimonials.map((t, i) => (
             <motion.div
               key={i}
@@ -52,20 +56,28 @@ export function Testimonials() {
                     width={96}
                     height={96}
                     loading="lazy"
-                    className={`w-full h-full object-cover transition-all duration-700 ${i === 0 ? 'object-[center_20%]' : i === 1 ? 'object-[25%_20%]' : i === 2 ? 'object-[center_top]' : 'grayscale hover:grayscale-0'}`} 
+                    className={`w-full h-full object-cover transition-all duration-700 ${
+                      i === 0
+                        ? "object-[center_20%]"
+                        : i === 1
+                        ? "object-[25%_20%]"
+                        : i === 2
+                        ? "object-[center_top]"
+                        : ""
+                    }`} 
                   />
                 </div>
               </div>
 
-              {/* O texto agora tem flex-1 para empurrar o conteúdo abaixo dele para o final do card */}
               <p className="text-white/60 italic font-light leading-relaxed relative z-10 flex-1 mb-8">
                 "{t.content}"
               </p>
               
-              {/* O rodapé agora ficará sempre alinhado na base do card */}
               <div className="pt-6 border-t border-white/5 w-full mt-auto">
                 <p className="text-white font-medium">{t.name}</p>
-                <p className="text-accent text-[10px] uppercase tracking-[0.2em] font-bold mt-1">{t.role}</p>
+                <p className="text-accent text-[10px] uppercase tracking-[0.2em] font-bold mt-1">
+                  {t.role}
+                </p>
               </div>
             </motion.div>
           ))}

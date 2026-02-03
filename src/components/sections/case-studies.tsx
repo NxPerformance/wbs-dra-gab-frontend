@@ -11,6 +11,7 @@ const beforeCase2 = "/optimized/case1-before.webp";
 const depoisCase2 = "/optimized/case1-after.webp";
 const beforeCase3 = "/optimized/Lriants.webp";
 const depoisCase3 = "/optimized/Lridps.webp";
+
 interface Case {
   id: string;
   title: string;
@@ -59,7 +60,7 @@ const cases: Case[] = [
 
 function AnimatedStats({ value }: { value: string }) {
   const nodeRef = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(nodeRef, { margin: "-20px" }); // Removed once: true to allow re-trigger if scrolled out
+  const isInView = useInView(nodeRef, { margin: "-20px" });
   
   const match = value.match(/(-?)([\d,.]+)(.*)/);
   
@@ -73,7 +74,7 @@ function AnimatedStats({ value }: { value: string }) {
 
     const runAnimation = () => {
       controls = animate(0, number, {
-        duration: 3.5, // User requested 3.5s
+        duration: 3.5,
         ease: "easeOut",
         onUpdate: (v) => {
           if (nodeRef.current) {
@@ -81,10 +82,10 @@ function AnimatedStats({ value }: { value: string }) {
           }
         },
         onComplete: () => {
-          if (nodeRef.current) nodeRef.current.textContent = numberStr; // Ensure exact final value
+          if (nodeRef.current) nodeRef.current.textContent = numberStr;
           timeoutId = setTimeout(() => {
             if (isInView) runAnimation();
-          }, 15000); // User requested 15s wait
+          }, 15000);
         }
       });
     };
@@ -95,7 +96,7 @@ function AnimatedStats({ value }: { value: string }) {
       if (controls) controls.stop();
       clearTimeout(timeoutId);
     };
-  }, [isInView, match]); // Re-run if view status changes
+  }, [isInView, match]);
 
   if (!match) return <span>{value}</span>;
 
@@ -111,19 +112,18 @@ function AnimatedStats({ value }: { value: string }) {
 export function CaseStudies() {
   const autoplay = useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
 
-  const [emblaRef, emblaApi] = useEmblaCarousel(
+  const [emblaRef] = useEmblaCarousel(
     { 
-      align: 'center',
-      containScroll: 'trimSnaps',
+      align: "center",
+      containScroll: "trimSnaps",
       loop: true,
       watchDrag: (emblaApi, event) => {
-        // Prevent drag if touching the slider handle or container
         const target = event.target as HTMLElement;
-        if (target.closest('.cursor-ew-resize')) return false;
+        if (target.closest(".cursor-ew-resize")) return false;
         return true;
       },
       breakpoints: {
-        '(min-width: 768px)': { active: false }
+        "(min-width: 768px)": { active: false }
       }
     },
     [autoplay.current]
@@ -131,28 +131,20 @@ export function CaseStudies() {
 
   const handleInteractionStart = () => {
     try {
-      if (autoplay.current && typeof autoplay.current.stop === 'function') {
-        autoplay.current.stop();
-      }
-    } catch (error) {
-      // Ignora erros do autoplay
-    }
+      autoplay.current.stop();
+    } catch {}
   };
 
   const handleInteractionEnd = () => {
     try {
-      if (autoplay.current && autoplay.current.play && typeof autoplay.current.play === 'function') {
-        autoplay.current.play();
-      }
-    } catch (error) {
-      // Ignora erros do autoplay
-    }
+      autoplay.current.play();
+    } catch {}
   };
 
-    return (
-    <section className="py-16 md:py-24 lg:py-28 bg-background overflow-hidden border-t border-white/5">
+  return (
+    <section className="pt-16 pb-8 md:pt-24 md:pb-12 lg:pt-28 lg:pb-16 bg-background overflow-hidden">
       <div className="container mx-auto px-4 md:px-12 max-w-7xl">
-        <div className="flex flex-col items-center text-center space-y-4 mb-8 lg:mb-12">
+        <div className="flex flex-col items-center text-center space-y-3 mb-4 lg:mb-6">
           <div className="h-1 w-20 bg-accent" />
           <h2 className="text-4xl md:text-6xl font-sans font-medium text-white tracking-tight">
             RESULTADOS <span className="text-accent italic">REAIS</span>
@@ -173,45 +165,50 @@ export function CaseStudies() {
                 data-case-card={item.id}
                 className="flex-[0_0_85%] min-w-0 pl-4 md:pl-0 md:flex-none flex flex-col gap-6 h-full"
               >
-          <div className="relative rounded-2xl overflow-hidden p-0.5 shrink-0">
-            <ShineBorder
-              className="rounded-2xl z-20"
-              shineColor={["#2c123b", "#ffd166"]}
-              borderWidth={2}
-            />
-            <div className="relative z-10 rounded-2xl overflow-hidden">
-              <ImageComparison 
-                key={`image-comparison-${item.id}`}
-                beforeImage={item.before} 
-                afterImage={item.after}
-                onInteractionStart={handleInteractionStart}
-                onInteractionEnd={handleInteractionEnd}
-                beforePosition={item.beforePosition || "center"}
-                afterPosition={item.afterPosition || "center"}
-              />
-              {item.isFounder && (
-                <div className="absolute z-30 bg-accent text-primary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg shadow-accent/20 border border-white/20 left-4 bottom-4">
-                  Dra. Gabriela Zinhani
+                <div className="relative rounded-2xl overflow-hidden p-0.5 shrink-0">
+                  <ShineBorder
+                    className="rounded-2xl z-20"
+                    shineColor={["#2c123b", "#ffd166"]}
+                    borderWidth={2}
+                  />
+                  <div className="relative z-10 rounded-2xl overflow-hidden">
+                    <ImageComparison 
+                      beforeImage={item.before} 
+                      afterImage={item.after}
+                      onInteractionStart={handleInteractionStart}
+                      onInteractionEnd={handleInteractionEnd}
+                      beforePosition={item.beforePosition || "center"}
+                      afterPosition={item.afterPosition || "center"}
+                    />
+                    {item.isFounder && (
+                      <div className="absolute z-30 bg-accent text-primary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg shadow-accent/20 border border-white/20 left-4 bottom-4">
+                        Dra. Gabriela Zinhani
+                      </div>
+                    )}
+                  </div>
                 </div>
-              )}
-            </div>
-          </div>
-            <div className="glass-card p-6 md:p-8 border-white/10 flex-1 flex flex-col bg-accent/5 border-accent/20 relative overflow-hidden min-h-[450px] md:min-h-0">
-              <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-transparent opacity-50 pointer-events-none" />
-                  
+
+                <div className="glass-card p-6 md:p-8 border-white/10 flex-1 flex flex-col bg-accent/5 border-accent/20 relative overflow-hidden min-h-[450px] md:min-h-0">
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-transparent opacity-50 pointer-events-none" />
                   <div className="flex justify-between items-start mb-6 relative z-10 gap-4">
                     <div className="space-y-2 flex-1">
                       <div className="flex items-center gap-3">
-                         <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent brightness-125">Caso {item.id}</span>
-                         <div className="h-px w-8 bg-accent/30" />
+                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent brightness-125">
+                          Caso {item.id}
+                        </span>
+                        <div className="h-px w-8 bg-accent/30" />
                       </div>
-                      <h3 className="text-2xl md:text-3xl font-sans font-medium leading-tight text-accent">{item.title}</h3>
+                      <h3 className="text-2xl md:text-3xl font-sans font-medium leading-tight text-accent">
+                        {item.title}
+                      </h3>
                     </div>
                     <div className="text-right shrink-0">
                       <p className="text-2xl md:text-3xl font-bold text-white tabular-nums whitespace-nowrap">
                         <AnimatedStats value={item.stats} />
                       </p>
-                      <p className="text-[10px] uppercase tracking-widest text-white/40">Resultado</p>
+                      <p className="text-[10px] uppercase tracking-widest text-white/40">
+                        Resultado
+                      </p>
                     </div>
                   </div>
                   <p className="text-sm md:text-base text-white/60 leading-relaxed font-light">

@@ -8,7 +8,7 @@ export function Location() {
   return (
     <section
       id="localizacao"
-      className="py-16 md:py-24 lg:py-28 bg-background relative overflow-hidden border-t border-white/5"
+      className="py-16 md:py-24 lg:py-28 bg-background relative overflow-hidden"
     >
       <div className="container mx-auto px-4 md:px-12 max-w-7xl relative z-10">
         
@@ -22,7 +22,6 @@ export function Location() {
             viewport={{ once: true }}
             className="relative hidden lg:flex h-full"
           >
-            {/* 🔧 REMOVIDO overflow-hidden AQUI */}
             <div className="relative w-full h-full rounded-[2.5rem] border border-white/10 bg-black/50">
               <ShineBorder
                 className="rounded-[2.5rem] z-20"
@@ -40,9 +39,9 @@ export function Location() {
               </div>
             </div>
 
-            {/* ✅ CARD DE LOCALIZAÇÃO — HALF OVERLAY */}
+            {/* CARD DE LOCALIZAÇÃO */}
             <a
-              href="https://maps.google.com"
+              href="https://www.google.com/maps/dir/?api=1&destination=Rua+1138+Quadra+250+Lote+01+St+Marista+Goiânia+GO"
               target="_blank"
               rel="noopener noreferrer"
               className="
@@ -133,7 +132,7 @@ export function Location() {
                 </div>
 
                 <a
-                  href="https://maps.google.com"
+                  href="https://www.google.com/maps/dir/?api=1&destination=Rua+1138+Quadra+250+Lote+01+St+Marista+Goiânia+GO"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="absolute -bottom-6 left-4 right-4 glass-card p-4 border-accent/20 flex items-center gap-4 bg-background/80 backdrop-blur-md z-30"
