@@ -12,8 +12,9 @@ export function VitalMethod() {
     hiddenDesktop: { opacity: 0, x: -50 },
     visibleDesktop: { opacity: 1, x: 0 },
 
-    hiddenMobile: { opacity: 0, scale: 0.96 },
-    visibleMobile: { opacity: 1, scale: 1 },
+    hiddenMobile: { opacity: 0, y: 12 },
+    visibleMobile: { opacity: 1, y: 0 },
+
   };
 
   const pillars = [
