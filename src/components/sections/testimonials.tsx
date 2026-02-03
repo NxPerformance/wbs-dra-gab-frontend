@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 
 const testimonials = [
   {
@@ -33,62 +35,92 @@ export function Testimonials() {
     setIsMobile(window.innerWidth < 768);
   }, []);
 
+  const autoplay = useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: false })
+  );
+
+  const [emblaRef] = useEmblaCarousel(
+    {
+      align: "center",
+      containScroll: "trimSnaps",
+      loop: true,
+      breakpoints: {
+        "(min-width: 768px)": { active: false },
+      },
+    },
+    [autoplay.current]
+  );
+
   if (isMobile === null) return null;
 
   return (
     <section className="pt-8 pb-16 md:pt-12 md:pb-24 lg:pt-16 lg:pb-28 bg-background relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-12 max-w-7xl relative z-10">
-        <div className="text-center mb-6 md:mb-10 space-y-3">
-          <h2 className="text-white/60 text-xl font-sans uppercase tracking-[0.3em]">
+        
+        {/* 🔥 TÍTULO ATUALIZADO */}
+        <div className="text-center mb-6 md:mb-10 space-y-2">
+          <p className="text-white/60 text-sm md:text-xl font-sans uppercase tracking-[0.3em]">
             Veja o depoimento
-          </h2>
-          <p className="text-4xl md:text-5xl font-sans font-medium text-white italic">
+          </p>
+
+          <p className="text-2xl md:text-5xl font-sans font-medium text-white italic leading-tight">
             de quem já comprovou
+          </p>
+
+          <p className="text-3xl md:text-5xl font-sans font-medium italic text-accent leading-tight">
+            na prática
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 items-stretch">
-          {testimonials.map((t, i) =>
-            isMobile ? (
-              // ✅ MOBILE — 100% ESTÁTICO (IGUAL AO VITAL METHOD)
-              <div
-                key={i}
-                className="glass-card p-10 border-white/5 relative flex flex-col items-center text-center h-full"
-              >
-                <Quote className="absolute top-6 right-8 w-10 h-10 text-accent/10" />
+        {/* MOBILE — CARROSSEL */}
+        {isMobile ? (
+          <div ref={emblaRef}>
+            <div className="flex touch-pan-y">
+              {testimonials.map((t, i) => (
+                <div key={i} className="flex-[0_0_85%] pl-4 min-w-0">
+                  <div className="glass-card p-10 border-white/5 relative flex flex-col items-center text-center h-[460px]">
+                    <Quote className="absolute top-6 right-8 w-10 h-10 text-accent/10" />
 
-                <div className="relative w-24 h-24 mb-6 flex-shrink-0">
-                  <div className="relative w-full h-full rounded-full border-2 border-accent/20 overflow-hidden shadow-2xl">
-                    <img
-                      src={t.image}
-                      alt={t.name}
-                      width={96}
-                      height={96}
-                      loading="lazy"
-                      className={`w-full h-full object-cover ${
-                        i === 0
-                          ? "object-[center_20%]"
-                          : i === 1
-                          ? "object-[25%_20%]"
-                          : "object-[center_top]"
-                      }`}
-                    />
+                    <div className="relative w-24 h-24 mb-6 flex-shrink-0">
+                      <div className="relative w-full h-full rounded-full border-2 border-accent/20 overflow-hidden shadow-2xl">
+                        <img
+                          src={t.image}
+                          alt={t.name}
+                          width={96}
+                          height={96}
+                          loading="lazy"
+                          className={`w-full h-full object-cover ${
+                            i === 0
+                              ? "object-[center_20%]"
+                              : i === 1
+                              ? "object-[25%_20%]"
+                              : "object-[center_top]"
+                          }`}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="max-h-[180px] overflow-hidden mb-8">
+                      <p className="text-white/60 italic font-light leading-relaxed">
+                        "{t.content}"
+                      </p>
+                    </div>
+
+                    <div className="pt-6 border-t border-white/5 w-full mt-auto">
+                      <p className="text-white font-medium">{t.name}</p>
+                      <p className="text-accent text-[10px] uppercase tracking-[0.2em] font-bold mt-1">
+                        {t.role}
+                      </p>
+                    </div>
                   </div>
                 </div>
-
-                <p className="text-white/60 italic font-light leading-relaxed flex-1 mb-8">
-                  "{t.content}"
-                </p>
-
-                <div className="pt-6 border-t border-white/5 w-full mt-auto">
-                  <p className="text-white font-medium">{t.name}</p>
-                  <p className="text-accent text-[10px] uppercase tracking-[0.2em] font-bold mt-1">
-                    {t.role}
-                  </p>
-                </div>
-              </div>
-            ) : (
-              // 🖥️ DESKTOP — ANIMAÇÃO ORIGINAL (INALTERADA)
+              ))}
+            </div>
+          </div>
+        ) : (
+          /* DESKTOP — GRID + ANIMAÇÃO ORIGINAL */
+          <div className="grid md:grid-cols-3 gap-6 items-stretch">
+            {testimonials.map((t, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -130,9 +162,9 @@ export function Testimonials() {
                   </p>
                 </div>
               </motion.div>
-            )
-          )}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
