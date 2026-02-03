@@ -12,9 +12,8 @@ export function VitalMethod() {
     hiddenDesktop: { opacity: 0, x: -50 },
     visibleDesktop: { opacity: 1, x: 0 },
 
-    hiddenMobile: { opacity: 0, y: 12 },
+    hiddenMobile: { opacity: 1, y: 0 },
     visibleMobile: { opacity: 1, y: 0 },
-
   };
 
   const pillars = [
@@ -45,7 +44,6 @@ export function VitalMethod() {
     },
   ];
 
-  // ⛔ Evita render antes de saber se é mobile
   if (isMobile === null) return null;
 
   return (
@@ -89,18 +87,18 @@ export function VitalMethod() {
             <motion.div
               key={i}
               variants={cardVariants}
-              initial={isMobile ? "hiddenMobile" : "hiddenDesktop"}
-              whileInView={isMobile ? "visibleMobile" : "visibleDesktop"}
+              initial={isMobile ? "visibleMobile" : "hiddenDesktop"}
+              whileInView={!isMobile ? "visibleDesktop" : undefined}
               transition={{
                 duration: 0.5,
-                delay: isMobile ? i * 0.05 : i * 0.15,
+                delay: isMobile ? 0 : i * 0.15,
                 ease: "easeOut",
               }}
-              viewport={{ once: true }}
+              viewport={!isMobile ? { once: true } : undefined}
               className="glass-card p-8 flex flex-col items-center text-center group 
                          bg-[#2c123b]/10 border border-white/5 hover:border-[#fab31b]/30 
                          transition-all duration-500 cursor-pointer h-[420px] 
-                         relative overflow-hidden will-change-transform transform-gpu"
+                         relative overflow-hidden"
             >
               <div className="absolute -inset-1 bg-gradient-to-b from-[#fab31b]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 

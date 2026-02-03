@@ -62,9 +62,15 @@ export function Testimonials() {
                   ? { opacity: 1 }
                   : { opacity: 1, scale: 1 }
               }
-              transition={{ delay: i * 0.1 }}
+              transition={{
+                duration: 0.5,
+                delay: i * 0.1,
+                ease: "easeOut",
+              }}
               viewport={{ once: true }}
-              className="glass-card p-10 border-white/5 relative group flex flex-col items-center text-center hover:border-accent/20 hover:bg-white/5 transition-all duration-500 h-full will-change-transform transform-gpu"
+              className={`glass-card p-10 border-white/5 relative group flex flex-col items-center text-center 
+                hover:border-accent/20 hover:bg-white/5 transition-all duration-500 h-full
+                ${isMobile ? "" : "will-change-transform transform-gpu"}`}
             >
               <Quote className="absolute top-6 right-8 w-10 h-10 text-accent/10 group-hover:text-accent/20 transition-colors" />
 
