@@ -33,7 +33,6 @@ export function Testimonials() {
     setIsMobile(window.innerWidth < 768);
   }, []);
 
-  // ⛔ Evita render antes de saber se é mobile
   if (isMobile === null) return null;
 
   return (
@@ -49,63 +48,90 @@ export function Testimonials() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 items-stretch">
-          {testimonials.map((t, i) => (
-            <motion.div
-              key={i}
-              initial={
-                isMobile
-                  ? { opacity: 0 }
-                  : { opacity: 0, scale: 0.95 }
-              }
-              whileInView={
-                isMobile
-                  ? { opacity: 1 }
-                  : { opacity: 1, scale: 1 }
-              }
-              transition={{
-                duration: 0.5,
-                delay: i * 0.1,
-                ease: "easeOut",
-              }}
-              viewport={{ once: true }}
-              className={`glass-card p-10 border-white/5 relative group flex flex-col items-center text-center 
-                hover:border-accent/20 hover:bg-white/5 transition-all duration-500 h-full
-                ${isMobile ? "" : "will-change-transform transform-gpu"}`}
-            >
-              <Quote className="absolute top-6 right-8 w-10 h-10 text-accent/10 group-hover:text-accent/20 transition-colors" />
+          {testimonials.map((t, i) =>
+            isMobile ? (
+              // ✅ MOBILE — 100% ESTÁTICO (IGUAL AO VITAL METHOD)
+              <div
+                key={i}
+                className="glass-card p-10 border-white/5 relative flex flex-col items-center text-center h-full"
+              >
+                <Quote className="absolute top-6 right-8 w-10 h-10 text-accent/10" />
 
-              <div className="relative w-24 h-24 mb-6 flex-shrink-0">
-                <div className="absolute inset-0 bg-accent/20 rounded-full blur-xl group-hover:bg-accent/30 transition-colors" />
-                <div className="relative w-full h-full rounded-full border-2 border-accent/20 overflow-hidden shadow-2xl">
-                  <img
-                    src={t.image}
-                    alt={t.name}
-                    width={96}
-                    height={96}
-                    loading="lazy"
-                    className={`w-full h-full object-cover transition-all duration-700 ${
-                      i === 0
-                        ? "object-[center_20%]"
-                        : i === 1
-                        ? "object-[25%_20%]"
-                        : "object-[center_top]"
-                    }`}
-                  />
+                <div className="relative w-24 h-24 mb-6 flex-shrink-0">
+                  <div className="relative w-full h-full rounded-full border-2 border-accent/20 overflow-hidden shadow-2xl">
+                    <img
+                      src={t.image}
+                      alt={t.name}
+                      width={96}
+                      height={96}
+                      loading="lazy"
+                      className={`w-full h-full object-cover ${
+                        i === 0
+                          ? "object-[center_20%]"
+                          : i === 1
+                          ? "object-[25%_20%]"
+                          : "object-[center_top]"
+                      }`}
+                    />
+                  </div>
+                </div>
+
+                <p className="text-white/60 italic font-light leading-relaxed flex-1 mb-8">
+                  "{t.content}"
+                </p>
+
+                <div className="pt-6 border-t border-white/5 w-full mt-auto">
+                  <p className="text-white font-medium">{t.name}</p>
+                  <p className="text-accent text-[10px] uppercase tracking-[0.2em] font-bold mt-1">
+                    {t.role}
+                  </p>
                 </div>
               </div>
+            ) : (
+              // 🖥️ DESKTOP — ANIMAÇÃO ORIGINAL (INALTERADA)
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: i * 0.1, ease: "easeOut" }}
+                viewport={{ once: true }}
+                className="glass-card p-10 border-white/5 relative group flex flex-col items-center text-center hover:border-accent/20 hover:bg-white/5 transition-all duration-500 h-full will-change-transform transform-gpu"
+              >
+                <Quote className="absolute top-6 right-8 w-10 h-10 text-accent/10 group-hover:text-accent/20 transition-colors" />
 
-              <p className="text-white/60 italic font-light leading-relaxed relative z-10 flex-1 mb-8">
-                "{t.content}"
-              </p>
+                <div className="relative w-24 h-24 mb-6 flex-shrink-0">
+                  <div className="absolute inset-0 bg-accent/20 rounded-full blur-xl group-hover:bg-accent/30 transition-colors" />
+                  <div className="relative w-full h-full rounded-full border-2 border-accent/20 overflow-hidden shadow-2xl">
+                    <img
+                      src={t.image}
+                      alt={t.name}
+                      width={96}
+                      height={96}
+                      loading="lazy"
+                      className={`w-full h-full object-cover transition-all duration-700 ${
+                        i === 0
+                          ? "object-[center_20%]"
+                          : i === 1
+                          ? "object-[25%_20%]"
+                          : "object-[center_top]"
+                      }`}
+                    />
+                  </div>
+                </div>
 
-              <div className="pt-6 border-t border-white/5 w-full mt-auto">
-                <p className="text-white font-medium">{t.name}</p>
-                <p className="text-accent text-[10px] uppercase tracking-[0.2em] font-bold mt-1">
-                  {t.role}
+                <p className="text-white/60 italic font-light leading-relaxed flex-1 mb-8">
+                  "{t.content}"
                 </p>
-              </div>
-            </motion.div>
-          ))}
+
+                <div className="pt-6 border-t border-white/5 w-full mt-auto">
+                  <p className="text-white font-medium">{t.name}</p>
+                  <p className="text-accent text-[10px] uppercase tracking-[0.2em] font-bold mt-1">
+                    {t.role}
+                  </p>
+                </div>
+              </motion.div>
+            )
+          )}
         </div>
       </div>
     </section>
